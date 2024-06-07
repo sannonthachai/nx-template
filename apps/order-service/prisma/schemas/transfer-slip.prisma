@@ -1,0 +1,28 @@
+model TransferSlip {
+  id            Int            @id @default(autoincrement()) @map("id")
+  status        TransferStatus @default(WaitingApproval)
+  fromBank      String         @map("from_bank")
+  toBank        String         @map("to_bank")
+  slipPath      String         @map("slip_path")
+  amount        Int
+  transferredAt DateTime       @map("transferred_at")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  orderInstance   OrderInstance? @relation(fields: [orderInstanceId], references: [id])
+  orderInstanceId Int            @unique @map("order_instance_id")
+
+  @@map("transfer_slips")
+}
+
+model OrderInstance {
+  id            Int           @id @map("id")
+  transferSlips TransferSlip?
+
+  @@map("order_instances")
+}
+
+enum TransferStatus {
+  WaitingApproval
+  Approved
+}

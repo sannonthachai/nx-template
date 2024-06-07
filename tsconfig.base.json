@@ -1,0 +1,28 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@auth-service/*": ["./apps/auth-service/*"],
+      "@globish-micro-service/helpers": ["libs/helpers/src/index.ts"],
+      "@globish-micro-service/moment": ["libs/moment/src/index.ts"],
+      "@globish-micro-service/s3": ["libs/s3/src/index.ts"],
+      "@globish-micro-service/utils": ["libs/utils/src/index.ts"],
+      "@order-service/*": ["./apps/order-service/*"],
+      "@root/*": ["./*"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

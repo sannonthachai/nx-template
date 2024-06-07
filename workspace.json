@@ -1,0 +1,208 @@
+{
+  "version": 2,
+  "projects": {
+    "auth-service": {
+      "root": "apps/auth-service",
+      "sourceRoot": "apps/auth-service/src",
+      "projectType": "application",
+      "prefix": "auth-service",
+      "targets": {
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "auth-service:build"
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "showCircularDependencies": false,
+            "outputPath": "dist/apps/auth-service",
+            "main": "apps/auth-service/src/main.ts",
+            "tsConfig": "apps/auth-service/tsconfig.app.json",
+            "generatePackageJson": true
+          }
+        },
+        "dev": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "rm -rf dist/apps/auth-service && nx serve auth-service"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/auth-service"],
+          "options": {
+            "jestConfig": "apps/auth-service/jest.config.js",
+            "passWithNoTests": true,
+            "detectOpenHandles": true,
+            "forceExit": true
+          }
+        }
+      }
+    },
+    "helpers": {
+      "root": "libs/helpers",
+      "sourceRoot": "libs/helpers/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/helpers/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/helpers"],
+          "options": {
+            "jestConfig": "libs/helpers/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "moment": {
+      "root": "libs/moment",
+      "sourceRoot": "libs/moment/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/moment/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/moment"],
+          "options": {
+            "jestConfig": "libs/moment/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "order-service": {
+      "root": "apps/order-service",
+      "sourceRoot": "apps/order-service/src",
+      "projectType": "application",
+      "prefix": "order-service",
+      "targets": {
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "order-service:build"
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "showCircularDependencies": false,
+            "outputPath": "dist/apps/order-service",
+            "main": "apps/order-service/src/main.ts",
+            "tsConfig": "apps/order-service/tsconfig.app.json",
+            "generatePackageJson": true
+          }
+        },
+        "dev": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "rm -rf dist/apps/order-service && nx serve order-service"
+          }
+        },
+        "prismix": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx prismix && prisma format",
+            "cwd": "apps/order-service"
+          }
+        },
+        "migration-dev": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "prisma migrate dev --schema=./prisma/schema.prisma",
+            "cwd": "apps/order-service"
+          }
+        },
+        "migration-deploy": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "prisma migrate deploy --schema=./prisma/schema.prisma",
+            "cwd": "apps/order-service"
+          }
+        },
+        "prisma-generate": {
+          "executor": "@nrwl/workspace:run-commands",
+          "outputs": [],
+          "options": {
+            "command": "prisma generate",
+            "cwd": "apps/order-service"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/order-service"],
+          "options": {
+            "jestConfig": "apps/order-service/jest.config.js",
+            "passWithNoTests": true,
+            "detectOpenHandles": true,
+            "forceExit": true
+          }
+        }
+      }
+    },
+    "s3": {
+      "root": "libs/s3",
+      "sourceRoot": "libs/s3/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/s3/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/s3"],
+          "options": {
+            "jestConfig": "libs/s3/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "utils": {
+      "root": "libs/utils",
+      "sourceRoot": "libs/utils/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/utils/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/utils"],
+          "options": {
+            "jestConfig": "libs/utils/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    }
+  }
+}

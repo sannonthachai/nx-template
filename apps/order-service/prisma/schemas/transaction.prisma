@@ -1,0 +1,58 @@
+model Transaction {
+  id              Int                @id @default(autoincrement()) @map("id")
+  amount          Int
+  medthod         TransactionMethod
+  gateway         TransactionGateway
+  net             Int
+  type            TransactionType
+  bank            TransactionBank
+  installmentTerm Int                @map("installment_term")
+  createdAt       DateTime           @default(now()) @map("created_at")
+  updatedAt       DateTime           @updatedAt @map("updated_at")
+  orderInstance   OrderInstance      @relation(fields: [orderInstanceId], references: [id])
+  orderInstanceId Int                @map("order_instance_id")
+
+  @@map("transactions")
+}
+
+enum TransactionType {
+  income
+  outcome
+}
+
+enum TransactionGateway {
+  GBPAY     @map("gb-pay")
+  OMISE     @map("omise")
+  TWOCTWOP  @map("2c2p")
+  TRANSFER  @map("transfer")
+}
+
+enum TransactionMethod {
+  FULL         @map("full-payment")
+  TRANSFER     @map("transfer-payment")
+  QRCODE       @map("qrcode-payment")
+  INSTALLMENT  @map("installment-payment")
+}
+
+enum TransactionBank {
+  KTB                       @map("ktb")
+  SCB                       @map("scb")
+  KBANK                     @map("kbank")
+  BBL                       @map("bbl")
+  INSTALLMENT_BAY           @map("installment_bay")
+  INSTALLMENT_SCB           @map("installment_scb")
+  INSTALLMENT_CITI          @map("installment_citi")
+  INSTALLMENT_BBL           @map("installment_bbl")
+  INSTALLMENT_KBANK         @map("installment_kbank")
+  INSTALLMENT_UOB           @map("installment_uob")
+  INSTALLMENT_KTC           @map("installment_ktc")
+  INSTALLMENT_FIRST_CHOICE  @map("installment_first_choice")
+  INSTALLMENT_TBANK         @map("installment_tbank")
+}
+
+model OrderInstance {
+  id Int @id @map("id")
+  transactions Transaction[]
+
+  @@map("order_instances")
+}

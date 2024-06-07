@@ -1,0 +1,57 @@
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nrwl/nx"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "@nrwl/nx/enforce-module-boundaries": [
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": ["@root/*", "@auth-service/*", "@order-service/*"],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nrwl/nx/javascript"],
+      "rules": {}
+    }
+  ],
+  "rules": {
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/indent": ["warn", 2],
+    "@typescript-eslint/no-explicit-any": [ "warn", {
+      "fixToUnknown": true,
+      "ignoreRestArgs": true
+    }],
+    "max-len": ["error", {
+      "code": 80,
+      "ignoreUrls": true,
+      "ignoreComments": true,
+      "ignoreTrailingComments": true,
+      "ignorePattern": "^\\s*import",
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }],
+    "no-return-await": "error",
+    "require-await": "error",
+    "no-console": "warn",
+    "quotes": ["warn", "single"],
+    "semi": ["warn", "never"]
+  }
+}

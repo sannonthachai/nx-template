@@ -1,0 +1,20 @@
+model TransferSlipVerification {
+  id         Int      @id @default(autoincrement()) @map("id")
+  userId     String   @map("user_id")
+  userJson   Json     @map("user_json")
+  verifiedAt DateTime @default(now()) @map("verified_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  transferSlip   TransferSlip @relation(fields: [transferSlipId], references: [id])
+  transferSlipId Int          @map("transfer_slip_id")
+
+  @@map("transfer_slip_verifications")
+}
+
+model TransferSlip {
+  id                       Int                        @id @map("id")
+  transferSlipVerification TransferSlipVerification[]
+
+  @@map("transfer_slips")
+}

@@ -1,0 +1,33 @@
+model OrderInstance {
+  id        Int                 @id @default(autoincrement()) @map("id")
+  orderId   Int                 @map("order_id")
+  code      String              @unique @map("code")
+  amount    Int
+  status    OrderInstanceStatus @default(WaitingPurchase)
+  createdAt DateTime            @default(now()) @map("created_at")
+  updatedAt DateTime            @updatedAt @map("updated_at")
+
+  order Order @relation(fields: [orderId], references: [id])
+  transactions Transaction[]
+
+  @@map("order_instances")
+}
+
+enum OrderInstanceStatus {
+  WaitingPurchase
+  WaitingApproval
+  Complete
+}
+
+model Order {
+  id             Int             @id @map("id")
+  orderInstances OrderInstance[]
+
+  @@map("orders")
+}
+
+model Transaction {
+  id Int @default(autoincrement()) @id
+  orderInstanceId Int @map("order_instance_id")
+  orderInstance OrderInstance @relation(fields: [orderInstanceId], references: [id])
+}

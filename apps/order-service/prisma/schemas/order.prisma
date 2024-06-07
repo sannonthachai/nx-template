@@ -1,0 +1,50 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id            Int         @id @default(autoincrement()) @map("id")
+  ownerId       String      @map("owner_id")
+  ownerJson     Json        @map("owner_json")
+  code          String      @unique @map("code")
+  terms         String      @map("terms")
+  remark        String      @map("remark")
+  discountTotal Int         @map("discount_total")
+  witholdingTax Int         @map("witholding_tax")
+  tags          String[]
+  preTaxAmount  Int         @map("pre_tax_amount")
+  vatAmount     Int         @map("vat_amount")
+  netAmount     Int         @map("net_amount")
+  status        OrderStatus @default(WaitingPurchase) @map("status")
+  issuedDate    DateTime    @map("issued_date")
+  dueDate       DateTime    @map("due_date")
+  purchasedDate DateTime    @map("purchased_date")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+
+  orderItems OrderItem[]
+  orderInstances OrderInstance[]
+
+  @@map("orders")
+}
+
+enum OrderStatus {
+  WaitingPurchase
+  WaitingApproval
+  Void
+  Refund
+  Complete
+}
+
+model OrderItem {
+  id Int @default(autoincrement()) @id
+  orderId Int @map("order_id")
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+model OrderInstance {
+  id Int @default(autoincrement()) @id
+  orderId Int @map("order_id")
+  order Order @relation(fields: [orderId], references: [id])
+}

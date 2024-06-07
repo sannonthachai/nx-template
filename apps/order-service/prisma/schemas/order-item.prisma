@@ -1,0 +1,34 @@
+model OrderItem {
+  id           Int      @id @default(autoincrement()) @map("id")
+  itemId       String   @map("item_id")
+  name         String
+  itemJson     Json     @map("item_json")
+  price        Int
+  vat          Int
+  description  String
+  discount     Int
+  discountJson Json     @map("discount_json")
+  amount       Int
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  order Order @relation(fields: [orderId], references: [id])
+  orderItemDiscountJsons OrderItemDiscountJson[]
+  orderId Int @map("order_id")
+
+  @@map("order_items")
+}
+
+model Order {
+  id         Int         @id @map("id")
+  orderItems OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItemDiscountJson {
+  id Int @default(autoincrement()) @id
+  orderItemId Int @map("order_item_id")
+  orderItem OrderItem @relation(fields: [orderItemId], references: [id])
+}
+

@@ -1,0 +1,19 @@
+model OrderItemDiscountJson {
+  id          Int       @id @default(autoincrement()) @map("id")
+  name        String
+  description String
+  type        String
+  value       Int
+  remark      String
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id])
+  orderItemId Int       @map("order_item_id")
+
+  @@map("order_item_discount_jsons")
+}
+
+model OrderItem {
+  id                     Int                     @id
+  orderItemDiscountJsons OrderItemDiscountJson[]
+
+  @@map("order_items")
+}

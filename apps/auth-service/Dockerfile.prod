@@ -1,0 +1,39 @@
+FROM node:14.18.1-alpine3.14 AS preparestage
+
+ARG APP_SERVICE
+ENV APP_SERVICE=${APP_SERVICE}
+
+WORKDIR /app
+
+COPY . .
+
+FROM node:14.18.1-alpine3.14
+
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+ARG APP_SERVICE \
+    DB_HOST \
+    DB_PORT \
+    DB_USER \
+    DB_PASS \
+    DB_NAME \
+    JWT_SECRET_KEY
+ENV PORT=3000 \
+    APP_SERVICE=${APP_SERVICE} \
+    DB_HOST=${DB_HOST} \
+    DB_PORT=${DB_PORT} \
+    DB_USER=${DB_USER} \
+    DB_PASS=${DB_PASS} \
+    DB_NAME=${DB_NAME} \
+    JWT_SECRET_KEY=${JWT_SECRET_KEY}
+
+WORKDIR /app
+
+COPY yarn.lock .
+
+COPY --from=preparestage /app/dist/apps/${APP_SERVICE} .
+
+RUN yarn install
+RUN yarn add tslib
+
+CMD ["node", "main.js"]
